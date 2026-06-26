@@ -1,0 +1,483 @@
+# ============================================================
+#  Design Prompt YAML — "Warm Luxury Minimal"
+#  Abstracted from: Miki Portfolio (miki-portfolio-xi.vercel.app)
+#  Reusable for: any premium / artisan / boutique brand site
+# ============================================================
+
+metadata:
+  style_name: warm_luxury_minimal
+  keywords:
+    - luxury
+    - minimal
+    - artisan
+    - warm
+    - elegant
+    - feminine
+    - handcrafted
+    - japanese_negative_space
+  best_fit_industries:
+    - luxury goods / cosmetics
+    - boutique food & beverage / patisserie
+    - wedding & event planning
+    - artisan / craft businesses
+    - premium service portfolio
+    - skincare / wellness
+    - consulting & creative agencies
+
+
+# ─────────────────────────────────────────────────────────────
+#  COLOR SYSTEM
+# ─────────────────────────────────────────────────────────────
+color_system:
+
+  # Neutral surface — warm-tinted, never pure white or pure black
+  surface:
+    base:       "#FFFFFF"   # primary background
+    warm:       "#FAF8F6"   # alternate section background (warm off-white)
+    champagne:  "#FFFCF5"   # lightest gold-tinted white (CTA section bg)
+
+  # Text — charcoal hierarchy, no pure black
+  ink:
+    primary:    "#2D2926"   # deep warm charcoal (body text, headings)
+    secondary:  "#7A6E68"   # warm taupe (descriptions, captions, labels)
+
+  # Two-tone accent system (gold + blush)
+  accent:
+    gold:
+      base:       "#B8965A"   # primary accent: labels, CTAs, highlights
+      light:      "#FFFBF2"   # gold-tinted background tint
+      bright:     "#F5D87A"   # shimmer highlight (lighter, animated)
+      deep:       "#8B6339"   # hover depth / dark gold (wood tone)
+      mid:        "#C4966A"   # mid earth tone
+    blush:
+      base:       "#C4909A"   # emotional accent: italic words, soft CTAs
+      light:      "#FDF0F2"   # blush background tint
+
+  border:         "#E8E2DC"   # warm light gray for all dividers/borders
+
+  usage_rules:
+    gold:   "premium signal — use for eyebrow labels, decorative lines, primary CTA bg, shimmer text"
+    blush:  "emotional warmth — use for italic emphasis in headings, secondary CTAs"
+    ink_primary:   "body text and all headings (never use pure #000)"
+    ink_secondary: "supporting text, meta info, captions"
+    surface_warm:  "alternate section backgrounds in alternating pattern"
+    avoid:
+      - "pure black (#000000)"
+      - "pure cool gray"
+      - "bright saturated colors"
+      - "blue or green tones (unless brand-specific)"
+
+
+# ─────────────────────────────────────────────────────────────
+#  TYPOGRAPHY
+# ─────────────────────────────────────────────────────────────
+typography:
+
+  # Dual-font architecture: heritage serif + geometric sans
+  typefaces:
+    display:
+      role: "headings, titles, logo"
+      archetype: "elegant thin-weight serif (e.g. Cormorant Garamond, Playfair Display, DM Serif)"
+      weights: [300, 400]
+      italic_color: BLUSH   # italic words in headings use blush accent
+      note: "Always use light weight (300). Italic only for emotionally charged keywords."
+    body:
+      role: "navigation, buttons, body text, labels"
+      archetype: "geometric humanist sans (e.g. Jost, Inter, DM Sans)"
+      weights: [300, 400, 500]
+      note: "Never bold in headings. Light-to-regular only."
+
+  scale:
+    hero_h1:       "clamp(2.8rem, 5.5vw, 5rem)"
+    section_h2:    "clamp(2rem, 4vw, 3rem)"
+    card_title:    "1.45rem"
+    eyebrow_label: "0.68rem"    # ALL-CAPS section label above headings
+    body:          "0.84–0.95rem"
+    caption:       "0.72rem"
+    button:        "0.75rem"
+
+  treatments:
+    eyebrow:
+      size:           "0.68rem"
+      letter_spacing: "0.22em"
+      transform:      "uppercase"
+      color:          GOLD
+      margin_below:   "1rem"
+    heading:
+      weight:         300
+      line_height:    1.12
+      italic_accent:  "wrap emotionally key word in <em>, color it BLUSH"
+    body:
+      line_height:    "1.7–1.9"
+      weight:         400
+    button_label:
+      size:           "0.75rem"
+      letter_spacing: "0.13em"
+      transform:      "uppercase"
+    nav_link:
+      size:           "0.72rem"
+      letter_spacing: "0.14em"
+      transform:      "uppercase"
+      color:          INK_SECONDARY
+
+
+# ─────────────────────────────────────────────────────────────
+#  SPACING & GEOMETRY
+# ─────────────────────────────────────────────────────────────
+spacing:
+  container_max:          "1120px"
+  horizontal_padding:     "5vw"   # fluid, not fixed
+  section_vertical:
+    desktop:  "100px"
+    mobile:   "72px"
+  card_inner_padding:     "24px"
+  section_header_mb:      "56px"
+
+border_radius:
+  sm:       "8px"
+  default:  "12px"
+  lg:       "20px"
+  pill:     "20–40px"   # filter buttons, badges
+  circle:   "50%"       # icon containers, dot indicators
+
+shadows:
+  # All shadows: warm charcoal base (not cold black)
+  sm:         "0 2px 12px rgba(45,41,38,.07)"
+  md:         "0 8px 32px rgba(45,41,38,.12)"
+  lg:         "0 24px 64px rgba(45,41,38,.16)"
+  card_hover: "0 12px 40px rgba(184,150,90,.15)"   # gold-tinted on hover
+
+transitions:
+  fast: "280ms ease"
+  slow: "600ms ease"
+  hover_lift: "translateY(-2px) — cards: -5px"
+  hover_effect: "lift + shadow deepens simultaneously"
+
+
+# ─────────────────────────────────────────────────────────────
+#  ANIMATIONS
+# ─────────────────────────────────────────────────────────────
+animations:
+
+  shimmer_sweep:
+    purpose:     "Animated gold gradient sweep across text"
+    target:      "Primary headings, decorative divider lines"
+    technique:   "background-clip:text on wide gradient, animated background-position"
+    gradient:    "105deg — gold(0%) → bright-gold(25%) → gold(55%) → gold(80%)"
+    bg_size:     "300% auto"
+    duration:    "4–5s linear infinite"
+    keyframes:
+      from: "background-position: -300% center"
+      to:   "background-position: +300% center"
+
+  gold_pulse:
+    purpose:  "Slow opacity breathing on small gold ornament glyphs"
+    target:   "Center jewel (✦) on section dividers"
+    duration: "3s ease-in-out infinite"
+    keyframes:
+      from: "opacity: 0.5"
+      peak: "opacity: 1.0"
+      to:   "opacity: 0.5"
+
+  sparkle_float:
+    purpose:   "Atmospheric magic particles drifting upward in hero"
+    shapes:
+      circle:  "5px diameter, radial-gradient gold → transparent"
+      diamond: "6px, same gradient, rotated 45deg"
+    keyframes:
+      - "0%:   opacity:0, translateY(0),   scale(0),   rotate(0deg)"
+      - "25%:  opacity:1, translateY(-28px), scale(1),   rotate(45deg)"
+      - "75%:  opacity:.6, translateY(-64px), scale(.7), rotate(120deg)"
+      - "100%: opacity:0, translateY(-96px), scale(0),  rotate(180deg)"
+    duration:  "3.5–6s ease-in-out infinite"
+    stagger:   "0–2.5s delay, 6–8 particles scattered in hero"
+    glow:      "box-shadow: 0 0 6px 2px rgba(gold, .5)"
+
+  twinkle_stars:
+    purpose:   "Static ✦ glyphs that pulse scale + rotation in hero background"
+    glyph:     "✦"
+    keyframes:
+      from: "opacity:.15, scale(.6), rotate(0deg)"
+      peak: "opacity:1,  scale(1),  rotate(180deg)"
+    duration:  "2.5–4s ease-in-out infinite"
+    count:     "4–6 scattered, varying sizes (8–14px)"
+
+  scroll_reveal:
+    purpose:   "Elements animate into view on scroll"
+    initial:   "opacity:0; transform:translateY(28px)"
+    active:    "opacity:1; transform:none"
+    duration:  "0.85s ease"
+    stagger:   "0.1s per child element (up to 4 levels)"
+    trigger:   "IntersectionObserver, rootMargin: 0px 0px 80px 0px"
+    fallback:  "Force-show all after 2s if observer fails"
+
+
+# ─────────────────────────────────────────────────────────────
+#  VISUAL EFFECTS
+# ─────────────────────────────────────────────────────────────
+visual_effects:
+
+  glassmorphism_nav:
+    description: "Sticky nav with frosted glass — feels premium, not heavy"
+    css:
+      background:       "rgba(255,255,255,.93)"
+      backdrop_filter:  "blur(16px)"
+      border_bottom:    "1px solid rgba(GOLD, .18)"
+      position:         "fixed top"
+      height:           "64px"
+
+  gold_divider:
+    description: "Full-width 1px rule between sections with animated center jewel"
+    line_css:    "background: linear-gradient(90deg, transparent 0%, GOLD 50%, transparent 100%)"
+    center_ornament:
+      glyph:     "✦"
+      animation: "gold_pulse"
+      technique: "::before pseudo-element, absolute center, white bg padding to clip line"
+
+  shimmer_heading:
+    description: "Gold-gradient text with animated sweep — use sparingly on key headings"
+    css:
+      background:        "linear-gradient(105deg, GOLD, BRIGHT_GOLD, GOLD)"
+      background_size:   "300% auto"
+      background_clip:   "text"
+      webkit_text_fill:  "transparent"
+      animation:         "shimmer_sweep 5s linear infinite"
+
+  card_gradient_border:
+    description: "Cards have a 2px gradient top edge — gold→blush→gold"
+    css:
+      border_top:         "2px solid transparent"
+      border_image:       "linear-gradient(90deg, GOLD, BLUSH, GOLD) 1"
+      border_image_slice: "1"
+    variant_gems: "linear-gradient(90deg, BLUSH, GOLD, BLUSH) 1"
+
+  hero_ambient_bg:
+    description: "Multiple radial gradient layers create warm atmospheric glow"
+    layers:
+      - "ellipse 60% 50% at 78% 42%: GOLD rgba(.06)"
+      - "ellipse 40% 55% at 18% 80%: BLUSH rgba(.05)"
+      - "ellipse 80% 25% at 50% 100%: champagne rgba(.35)"
+
+  image_overlay:
+    description: "Dark-to-transparent gradient over images for text legibility"
+    css: "linear-gradient(to top, rgba(45,41,38,.9) 0%, rgba(45,41,38,.5) 40%, transparent 100%)"
+    transition: "opacity: 0 → 1 on hover (600ms)"
+
+  dot_indicator:
+    description: "Carousel dots — active dot extends to pill shape"
+    inactive: "7px circle, rgba(white,.35)"
+    active:   "22px pill, GOLD color, border-radius:4px"
+    transition: "all 280ms ease"
+
+
+# ─────────────────────────────────────────────────────────────
+#  COMPONENT PATTERNS
+# ─────────────────────────────────────────────────────────────
+components:
+
+  button:
+    base:
+      font_size:      "0.75rem"
+      letter_spacing: "0.13em"
+      text_transform: "uppercase"
+      padding:        "14px 28px"
+      border_radius:  "8px (sm)"
+      transition:     "all 280ms ease"
+      hover:          "translateY(-2px) + box-shadow"
+    variants:
+      primary_dark:
+        bg:    INK_PRIMARY
+        color: white
+        use:   "Main CTA"
+      outline:
+        border: "1px solid BORDER"
+        bg:     transparent
+        color:  INK_PRIMARY
+        use:    "Secondary action"
+      accent_gold:
+        bg:    GOLD_BASE
+        color: white
+        use:   "Purchase / premium action"
+        hover_bg: GOLD_DEEP
+      accent_blush:
+        bg:    BLUSH_BASE
+        color: white
+        use:   "Emotional / care action"
+      social:
+        bg:    "#06C755"   # LINE green — swap per platform
+        color: white
+
+  navigation:
+    structure:  "sticky top; logo left; links right; height:64px"
+    style:      glassmorphism (see visual_effects)
+    logo:
+      font:     "display serif"
+      weight:   400
+      accent:   "one word in GOLD (e.g. 'Portfolio' in 'Miki Portfolio')"
+    links:
+      style:    "0.72rem uppercase letter-spaced, INK_SECONDARY color"
+      hover:    "color → INK_PRIMARY"
+    mobile:
+      trigger:  "hamburger (3 bars, 22px wide)"
+      drawer:   "full-width dropdown, border-separated links, 14px padding"
+
+  section_header:
+    pattern:    "centered stack: eyebrow → h2 → shimmer divider → body"
+    eyebrow:    "GOLD uppercase, 0.68rem, 0.22em tracking"
+    h2:         "display serif, light, italic accent word in BLUSH"
+    divider:
+      width:    "64px"
+      height:   "1.5px"
+      style:    "shimmer_sweep animation"
+    body:       "INK_SECONDARY, 0.92rem, max-width:44ch, centered"
+
+  card:
+    media:
+      aspect_ratio: "16/9 (tools) or 4/3 (gems)"
+      overflow:     "hidden"
+      hover_img:    "scale(1.02) — subtle zoom"
+    body:
+      padding: "24px"
+      stack:   "eyebrow label → title (serif) → description → footer (price + CTA)"
+    hover:
+      transform:  "translateY(-5px)"
+      shadow:     "card_hover (gold-tinted)"
+    border:     card_gradient_border
+    grid:
+      cols:     "auto-fill, minmax(320px, 1fr)"
+      gap:      "32px"
+
+  gallery_slideshow:
+    height_desktop: "560px"
+    height_mobile:  "72vw (min 280px)"
+    slide_transition: "opacity: 1.2s ease (crossfade)"
+    image_motion:   "scale(1 → 1.02) on active, 8s ease (subtle Ken Burns)"
+    overlay:        image_overlay (hover or click to pin)
+    controls:
+      arrows: "44px circle, rgba(white,.15) + backdrop-filter:blur(4px)"
+      dots:   dot_indicator
+
+  tag_filter_bar:
+    layout:   "flex-wrap, centered, gap:.6rem"
+    pill_style:
+      inactive: "border:1px solid BORDER, bg:white, color:INK_SECONDARY"
+      active:   "bg:INK_PRIMARY, color:white, border:INK_PRIMARY"
+      size:     "0.7rem, letter-spacing:.1em, padding:7px 18px, border-radius:20px"
+
+
+# ─────────────────────────────────────────────────────────────
+#  LAYOUT PHILOSOPHY
+# ─────────────────────────────────────────────────────────────
+layout:
+
+  philosophy:
+    - "Generous whitespace — sections breathe"
+    - "Alternating warm white / cream backgrounds"
+    - "Gold dividers between every section (not sections themselves)"
+    - "Full-width hero; contained-width content"
+    - "Fluid padding (5vw) over fixed px"
+
+  hero:
+    pattern:    "flex row — text(flex:1) + visual(flex:0 0 44%)"
+    min_height: "100vh"
+    mobile:     "flex-column — visual on top, text below"
+    bg:         hero_ambient_bg
+
+  sections:
+    alternating: true
+    divider:     gold_divider (between sections)
+    content_max: "1120px centered"
+
+  grids:
+    standard_cards: "auto-fill, minmax(320px, 1fr), gap:32px"
+    compact_cards:  "auto-fill, minmax(280px, 1fr), gap:24px"
+    wide_cards:     "auto-fill, minmax(480px, 1fr), gap:32px"
+
+  footer:
+    bg:    INK_PRIMARY
+    color: "rgba(white,.4)"
+    logo:  "serif, rgba(white,.82), GOLD accent word"
+
+
+# ─────────────────────────────────────────────────────────────
+#  ATMOSPHERE PROFILE
+# ─────────────────────────────────────────────────────────────
+atmosphere:
+
+  core_feeling: "Walking into a beautifully lit boutique — calm, refined, trustworthy"
+
+  personality_traits:
+    - trait: "Elegant but approachable"
+      how: "Light serif + readable sans, never cold or pretentious"
+    - trait: "Premium without being loud"
+      how: "Gold accents used sparingly; most of page is calm neutrals"
+    - trait: "Warm and human"
+      how: "Cream whites, warm shadows, blush pink — no cold grays"
+    - trait: "Magical / delightful"
+      how: "Sparkle particles, shimmer text — small doses of joy"
+    - trait: "Trustworthy and curated"
+      how: "Consistent spacing, restrained palette, editorial feel"
+
+  symbolic_meanings:
+    gold:   "Rare, precious, worth the investment — quality signal"
+    blush:  "Care, warmth, handcrafted with love — emotional connection"
+    serif:  "Heritage, story, art, permanence — brand character"
+    cream:  "Pure ingredients, craft, nothing added unnecessarily"
+    particles: "Celebration, magic, the special feeling of the brand"
+
+  what_to_avoid:
+    colors:     ["pure black", "cool grays", "bright saturated primaries", "neon"]
+    typography: ["bold/heavy headings", "all-caps body text", "multiple font families"]
+    effects:    ["drop-shadows with pure black", "flat design without depth", "busy patterns"]
+    layout:     ["tight spacing", "centered hero text without visual", "no section dividers"]
+    motion:     ["aggressive or fast animations", "bouncy easing", "scroll-jacking"]
+
+
+# ─────────────────────────────────────────────────────────────
+#  AI GENERATION PROMPTS
+# ─────────────────────────────────────────────────────────────
+ai_prompts:
+
+  image_style_prompt: |
+    Luxury minimalist web design aesthetic. Warm white (#FFFFFF) and cream (#FAF8F6)
+    backgrounds. Dual accent system: warm gold (#B8965A) and dusty blush pink (#C4909A).
+    Deep charcoal text (#2D2926). Thin-weight elegant serif display font (Cormorant Garamond
+    style, weight 300). Geometric humanist sans-serif body text (Jost style).
+    Gold shimmer sweep animation on key headings. Floating gold sparkle particles
+    (✦ diamond and circle shapes) in hero. Frosted glass sticky navigation.
+    Full-width 1px gold gradient dividers with ✦ center ornament. Cards with gold-to-pink
+    gradient top border (2px). Warm charcoal-tinted soft shadows. Scroll-reveal fade-up
+    animations. Clean grid layout with generous 5vw padding.
+    Mood: artisanal, feminine, premium, warm, Japanese minimalist.
+    Hero: two-column layout (text left, image grid right).
+
+  css_system_prompt: |
+    Design a warm luxury minimal CSS design system with these exact tokens:
+    Background: #FFFFFF (base), #FAF8F6 (warm alt). Text: #2D2926 (primary), #7A6E68 (secondary).
+    Accents: gold #B8965A (labels, CTAs, decorative), blush #C4909A (italic emphasis).
+    Borders: #E8E2DC. Border-radius: 8px/12px/20px.
+    Shadows use rgba(45,41,38) base (warm, not pure black):
+      sm .07 opacity, md .12, lg .16, hover gold-tinted rgba(184,150,90,.15).
+    Fonts: Cormorant Garamond (display, weight 300) + Jost (body, weight 400).
+    Transitions: 280ms ease (fast), 600ms ease (slow).
+    Key animations: shimmer-sweep on gold text (5s linear), float-spark particles (4-6s),
+    twinkle stars (3s), scroll-reveal translateY(28px→0) opacity(0→1) 0.85s.
+
+  negative_prompt: |
+    Avoid: pure black (#000), cold blue-gray palettes, heavy bold fonts,
+    flat design without depth, bright saturated colors, tight spacing,
+    pure black shadows, busy backgrounds, aggressive animations,
+    centered-only hero layouts, generic card designs without personality.
+
+  adaptation_guide: |
+    To adapt this system for a new brand:
+    1. Keep the neutral surfaces (warm whites) — they work universally
+    2. Replace [GOLD #B8965A] with your primary brand color
+    3. Replace [BLUSH #C4909A] with your secondary/emotional brand color
+    4. Keep [INK #2D2926] or shift ±10% warmer/cooler for brand fit
+    5. Swap serif typeface (Cormorant → Playfair, DM Serif, Libre Baskerville)
+    6. Swap sans typeface (Jost → Inter, DM Sans, Plus Jakarta Sans)
+    7. Sparkle particles: optional but high-impact for premium feel
+    8. Shimmer text: use on ONE key heading per page maximum
+    9. Always alternate section backgrounds (white ↔ warm)
+    10. Always use gold-style dividers between sections

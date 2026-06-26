@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miki Portfolio — Sweet Tech, Beautiful Life.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════
+   Design System — Warm Luxury Minimal
+   Source: design-prompt.yaml
+══════════════════════════════════════ */
+:root {
+  /* Surface */
+  --bg:         #FFFFFF;
+  --bg-warm:    #FAF8F6;
+  --champagne:  #FFFCF5;
+
+  /* Ink */
+  --ink:        #2D2926;
+  --ink-mid:    #7A6E68;
+
+  /* Accent: Gold */
+  --gold:       #B8965A;
+  --gold-lt:    #FFFBF2;
+  --gold-bright:#F5D87A;
+  --gold-deep:  #8B6339;
+  --gold-mid:   #C4966A;
+
+  /* Accent: Blush */
+  --blush:      #C4909A;
+  --blush-lt:   #FDF0F2;
+
+  /* Border */
+  --border:     #E8E2DC;
+
+  /* Typography */
+  --serif: 'Cormorant Garamond', 'Noto Serif JP', serif;
+  --sans:  'Jost', 'Noto Sans JP', sans-serif;
+
+  /* Geometry */
+  --r-sm: 8px;
+  --r:    12px;
+  --r-lg: 20px;
+
+  /* Shadows (warm charcoal base) */
+  --sh-sm: 0 2px 12px rgba(45,41,38,.07);
+  --sh-md: 0 8px 32px rgba(45,41,38,.12);
+  --sh-lg: 0 24px 64px rgba(45,41,38,.16);
+  --sh-gold: 0 12px 40px rgba(184,150,90,.15);
+
+  /* Motion */
+  --tr:      280ms ease;
+  --tr-slow: 600ms ease;
+}
+
+/* ── Animations ── */
+@keyframes shimmer-sweep {
+  0%   { background-position: -300% center; }
+  100% { background-position: +300% center; }
+}
+@keyframes gold-pulse {
+  0%,100% { opacity:.5; }
+  50%      { opacity:1; }
+}
+@keyframes float-spark {
+  0%   { opacity:0; transform:translateY(0)    scale(0)  rotate(0deg); }
+  25%  { opacity:1; transform:translateY(-28px) scale(1)  rotate(45deg); }
+  75%  { opacity:.6;transform:translateY(-64px) scale(.7) rotate(120deg); }
+  100% { opacity:0; transform:translateY(-96px) scale(0)  rotate(180deg); }
+}
+@keyframes twinkle {
+  0%,100% { opacity:.15; transform:scale(.6) rotate(0deg); }
+  50%      { opacity:1;   transform:scale(1)  rotate(180deg); }
+}
+@keyframes reveal-up {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:none; }
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-weight:400; line-height:1.7; -webkit-font-smoothing:antialiased; }
+img  { display:block; max-width:100%; }
+a    { color:inherit; text-decoration:none; }
+
+/* ── Utility ── */
+.container { max-width:1120px; margin:0 auto; padding:0 5vw; }
+.reveal { animation:reveal-up .85s ease both; }
+.reveal-d1 { animation-delay:.1s; }
+.reveal-d2 { animation-delay:.2s; }
+.reveal-d3 { animation-delay:.3s; }
+
+/* ══ SPARKLE PARTICLES ══ */
+.spark {
+  position:absolute; pointer-events:none; border-radius:50%;
+  width:5px; height:5px;
+  background:radial-gradient(circle, #F5D87A 0%, #B8965A 60%, transparent 100%);
+  box-shadow:0 0 6px 2px rgba(184,150,90,.5);
+  animation:float-spark var(--dur,4s) ease-in-out var(--delay,0s) infinite;
+}
+.spark.diamond { border-radius:0; width:6px; height:6px; transform:rotate(45deg);
+  background:linear-gradient(135deg,#F5D87A,#B8965A); }
+.twinkle {
+  position:absolute; pointer-events:none;
+  animation:twinkle var(--dur,3s) ease-in-out var(--delay,0s) infinite;
+}
+.twinkle::before { content:'✦'; font-size:var(--sz,10px); color:var(--gold); opacity:.4; }
+
+/* ══ SHIMMER TEXT ══ */
+.shimmer {
+  background:linear-gradient(105deg,var(--gold) 0%,#F5D87A 25%,#D4AA6A 40%,#F5D87A 55%,var(--gold) 80%);
+  background-size:300% auto;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shimmer-sweep 5s linear infinite;
+}
+
+/* ══ GOLD RULE ══ */
+.gold-rule {
+  display:block; width:100%; height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(184,150,90,.18) 15%,var(--gold) 50%,rgba(184,150,90,.18) 85%,transparent 100%);
+  position:relative;
+}
+.gold-rule::before {
+  content:'✦'; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:10px; color:var(--gold);
+  background:var(--bg); padding:0 12px;
+  animation:gold-pulse 3s ease-in-out infinite;
+}
+.gold-rule--warm::before { background:var(--bg-warm); }
+.gold-rule--champ::before { background:var(--champagne); }
+
+/* ══ NAV ══ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:64px;
+  background:rgba(255,255,255,.93);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(184,150,90,.18);
+  display:flex; align-items:center; justify-content:space-between; padding:0 5vw;
+}
+.nav-logo { font-family:var(--serif); font-size:1.45rem; font-weight:400; letter-spacing:.06em; }
+.nav-logo em { font-style:normal; color:var(--gold); }
+.nav-links { display:flex; list-style:none; gap:2rem; }
+.nav-links a { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mid); transition:color var(--tr); }
+.nav-links a:hover { color:var(--ink); }
+
+/* ══ BUTTONS ══ */
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--sans); font-size:.75rem; letter-spacing:.13em; text-transform:uppercase;
+  padding:14px 28px; border-radius:var(--r-sm);
+  transition:all var(--tr); cursor:pointer; border:none;
+}
+.btn:hover { transform:translateY(-2px); box-shadow:var(--sh-md); }
+.btn-dark   { background:var(--ink);   color:#fff; }
+.btn-dark:hover { background:var(--gold-deep); }
+.btn-outline { background:transparent; color:var(--ink); border:1px solid var(--border); }
+.btn-outline:hover { border-color:var(--ink); background:var(--bg-warm); box-shadow:none; }
+.btn-gold   { background:var(--gold);  color:#fff; }
+.btn-gold:hover  { background:var(--gold-deep); }
+.btn-blush  { background:var(--blush); color:#fff; }
+.btn-line   { background:#06C755; color:#fff; font-size:.9rem; padding:16px 36px; border-radius:var(--r); }
+.btn-line:hover { background:#05b04c; }
+
+/* ══ HERO ══ */
+.hero {
+  min-height:100vh; padding:100px 5vw 80px;
+  display:flex; align-items:center; gap:5vw;
+  position:relative; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 78% 42%, rgba(184,150,90,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 55% at 18% 80%, rgba(196,144,154,.05) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 25% at 50% 100%, rgba(245,237,216,.35) 0%, transparent 55%),
+    #fff;
+}
+.hero-content { position:relative; z-index:1; flex:1; min-width:0; }
+.eyebrow {
+  display:inline-block; margin-bottom:1.5rem;
+  font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold);
+}
+.hero h1 {
+  font-family:var(--serif); font-size:clamp(2.8rem,5.5vw,5rem);
+  font-weight:300; line-height:1.12;
+}
+.hero h1 em { font-style:italic; color:var(--blush); }
+.hero-line { width:48px; height:1px; background:linear-gradient(90deg,var(--gold),var(--gold-mid)); margin:1.8rem 0; }
+.hero-sub { font-size:clamp(.9rem,1.8vw,1.05rem); color:var(--ink-mid); max-width:42ch; line-height:1.9; margin-bottom:2.8rem; white-space:pre-line; }
+.cta-row { display:flex; gap:.8rem; flex-wrap:wrap; }
+
+/* Hero image panel */
+.hero-img-panel {
+  flex:0 0 44%; position:relative; z-index:1;
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:var(--sh-lg);
+}
+.hero-img-panel::before {
+  content:''; position:absolute; inset:0; z-index:2;
+  border-radius:var(--r-lg);
+  border:1.5px solid rgba(184,150,90,.45); pointer-events:none;
+}
+.hero-img-panel img { width:100%; height:220px; object-fit:cover; transition:transform var(--tr-slow); }
+.hero-img-panel img:hover { transform:scale(1.04); }
+
+/* ══ SECTIONS ══ */
+.section { padding:100px 0; }
+.section--warm { background:var(--bg-warm); }
+.section--champ { background:linear-gradient(180deg,#FFFCF5,#FFF8EC); }
+.section-header { text-align:center; margin-bottom:56px; }
+.s-eyebrow { display:block; font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.s-heading { font-family:var(--serif); font-size:clamp(2rem,4vw,3rem); font-weight:300; line-height:1.2; }
+.s-heading em { font-style:italic; color:var(--blush); }
+.s-divider {
+  display:block; width:64px; height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--gold) 40%,#F5D87A 50%,var(--gold) 60%,transparent);
+  background-size:200% auto;
+  margin:1.2rem auto 1.5rem;
+  animation:shimmer-sweep 4s linear infinite;
+}
+.s-body { font-size:.92rem; color:var(--ink-mid); max-width:44ch; margin:0 auto; line-height:1.9; }
+
+/* ══ GALLERY ══ */
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.g-card {
+  border-radius:var(--r-lg); overflow:hidden; background:var(--bg);
+  box-shadow:var(--sh-sm);
+  border-top:2px solid transparent;
+  border-image:linear-gradient(90deg,var(--gold),var(--blush),var(--gold)) 1;
+  border-image-slice:1;
+  transition:transform var(--tr), box-shadow var(--tr);
+}
+.g-card:hover { transform:translateY(-5px); box-shadow:var(--sh-gold); }
+.g-card-media { position:relative; overflow:hidden; height:220px; background:var(--bg-warm); }
+.g-card-media img { width:100%; height:100%; object-fit:cover; transition:transform var(--tr-slow); }
+.g-card:hover .g-card-media img { transform:scale(1.04); }
+.g-card-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(45,41,38,.85) 0%,rgba(45,41,38,.4) 40%,transparent 100%);
+  opacity:0; transition:opacity var(--tr-slow);
+  display:flex; flex-direction:column; justify-content:flex-end; padding:20px;
+}
+.g-card:hover .g-card-overlay { opacity:1; }
+.g-card-overlay-tag { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:.4rem; }
+.g-card-overlay-title { font-family:var(--serif); font-size:1.1rem; font-weight:300; color:#fff; }
+.g-card-body { padding:14px 18px; }
+.g-card-tag  { font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+.g-card-title { font-family:var(--serif); font-size:1rem; font-weight:400; color:var(--ink); }
+
+/* ══ GEMS ══ */
+.gems-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:24px; }
+.gem-card {
+  border-radius:var(--r-lg); overflow:hidden; background:var(--bg);
+  box-shadow:var(--sh-sm);
+  border-top:2px solid transparent;
+  border-image:linear-gradient(90deg,var(--blush),var(--gold),var(--blush)) 1;
+  border-image-slice:1;
+  transition:transform var(--tr), box-shadow var(--tr);
+}
+.gem-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(196,144,154,.18); }
+.gem-media { height:230px; overflow:hidden; position:relative; }
+.gem-media img { width:100%; height:100%; object-fit:cover; transition:transform var(--tr-slow); }
+.gem-card:hover .gem-media img { transform:scale(1.03); }
+.gem-body { padding:20px 22px 24px; }
+.gem-label { display:block; font-size:.62rem; letter-spacing:.17em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem; }
+.gem-title { font-family:var(--serif); font-size:1.25rem; font-weight:400; margin-bottom:.6rem; }
+.gem-desc  { font-size:.82rem; color:var(--ink-mid); line-height:1.85; }
+
+/* ══ CONTACT ══ */
+.contact-card {
+  max-width:520px; margin:0 auto; background:var(--bg);
+  border-radius:var(--r-lg); padding:60px 48px; text-align:center;
+  box-shadow:var(--sh-md); border:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+.contact-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--blush),var(--gold));
+}
+.contact-icon { font-size:2.4rem; margin-bottom:1.4rem; }
+.contact-h3 { font-family:var(--serif); font-size:1.9rem; font-weight:300; margin-bottom:.6rem; }
+.contact-body { font-size:.88rem; color:var(--ink-mid); line-height:1.9; margin-bottom:1.8rem; }
+.gift-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--gold-lt); border:1px solid rgba(184,150,90,.3);
+  border-radius:20px; padding:9px 22px;
+  font-size:.78rem; color:var(--gold-deep); margin-bottom:2rem; letter-spacing:.04em;
+}
+.contact-sub { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:1.2rem; }
+
+/* ══ FOOTER ══ */
+footer {
+  background:var(--ink); padding:52px 5vw; text-align:center;
+}
+.footer-logo { font-family:var(--serif); font-size:1.7rem; font-weight:300; color:rgba(255,255,255,.82); margin-bottom:6px; }
+.footer-logo em { font-style:normal; color:var(--gold); }
+.footer-copy { font-size:.72rem; letter-spacing:.1em; color:rgba(255,255,255,.4); }
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:768px){
+  .hero { flex-direction:column; padding:88px 5vw 60px; gap:2rem; }
+  .hero-img-panel { flex:none; width:100%; }
+  .hero-img-panel img { height:150px; }
+  .section { padding:72px 0; }
+  .contact-card { padding:40px 24px; }
+  .spark, .twinkle { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <div class="nav-logo">Miki <em>Portfolio</em></div>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#gems">Gems</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+
+  <!-- Sparkle particles -->
+  <span class="spark"         style="--dur:3.8s;--delay:0s;   left:12%;top:60%"></span>
+  <span class="spark diamond" style="--dur:5s;  --delay:.8s;  left:28%;top:72%"></span>
+  <span class="spark"         style="--dur:4.2s;--delay:1.4s; left:42%;top:55%"></span>
+  <span class="spark diamond" style="--dur:6s;  --delay:.3s;  left:55%;top:68%"></span>
+  <span class="spark"         style="--dur:3.5s;--delay:2s;   left:70%;top:74%"></span>
+  <span class="spark diamond" style="--dur:4.8s;--delay:.6s;  left:82%;top:60%"></span>
+
+  <!-- Twinkle stars -->
+  <span class="twinkle" style="--dur:2.8s;--delay:.5s; --sz:12px; left:8%; top:30%"></span>
+  <span class="twinkle" style="--dur:3.5s;--delay:1.2s;--sz:9px;  left:35%;top:20%"></span>
+  <span class="twinkle" style="--dur:4s;  --delay:2s;  --sz:14px; left:75%;top:25%"></span>
+  <span class="twinkle" style="--dur:2.5s;--delay:.8s; --sz:10px; left:90%;top:40%"></span>
+
+  <div class="hero-content">
+    <span class="eyebrow">Patissier × AI</span>
+    <h1>Sweet Tech,<br><em>Beautiful Life.</em></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">お菓子の現場で培った「見た目と精度へのこだわり」をAIに込めました。
+フードビジネスに寄り添うツールたちをご紹介します。
+
+現場を知るパティシエだからこそ作れる道具がある。
+飲食 × AI で、業界のDXをもっと身近にすることを目指しています。</p>
+    <div class="cta-row">
+      <a href="#gallery" class="btn btn-dark">作品を見る</a>
+      <a href="#gems"    class="btn btn-outline">AIアシスタント</a>
+      <a href="#contact" class="btn btn-gold">お問い合わせ</a>
+    </div>
+  </div>
+
+  <div class="hero-img-panel reveal reveal-d2">
+    <img src="images/gallery/Gemini_Generated_Image_.png"             alt="ケーキ断面図">
+    <img src="images/gallery/桜ムースタルトの断面図.png"              alt="桜タルト">
+    <img src="images/gallery/ココナッツティーパフェの分解図 (1).png"  alt="パフェ">
+    <img src="images/gallery/層状デザートのスケッチ.png"              alt="スケッチ">
+  </div>
+</section>
+
+<span class="gold-rule"></span>
+
+<!-- ══ GALLERY ══ -->
+<section class="section" id="gallery">
+  <div class="container">
+    <header class="section-header">
+      <span class="s-eyebrow">AI Photo Gallery</span>
+      <h2 class="s-heading">AI が変える、<em>食の視覚</em></h2>
+      <span class="s-divider"></span>
+      <p class="s-body">Gemini を使ったパティシエのためのビジュアル生成作品集。</p>
+    </header>
+
+    <div class="gallery-grid">
+      <div class="g-card reveal">
+        <div class="g-card-media">
+          <img src="images/gallery/Gemini_Generated_Image_.png" alt="キャラメルムース">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">キャラメルとスパイスティーのムース</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">キャラメルとスパイスティーのムース断面図</div>
+        </div>
+      </div>
+
+      <div class="g-card reveal reveal-d1">
+        <div class="g-card-media">
+          <img src="images/gallery/桜ムースタルトの断面図.png" alt="桜タルト">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">タルトレット SAKURA 断面図</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">タルトレット SAKURA 断面図</div>
+        </div>
+      </div>
+
+      <div class="g-card reveal reveal-d2">
+        <div class="g-card-media">
+          <img src="images/gallery/層状デザートのスケッチ.png" alt="パフェスケッチ">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">ストロベリーと紅茶のパフェスケッチ</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">ストロベリーと紅茶のパフェスケッチ</div>
+        </div>
+      </div>
+
+      <div class="g-card reveal reveal-d3">
+        <div class="g-card-media">
+          <img src="images/gallery/ココナッツティーパフェの分解図 (1).png" alt="ティーパフェ">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">ティーパフェ分解図</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">ティーパフェ分解図</div>
+        </div>
+      </div>
+
+      <div class="g-card reveal">
+        <div class="g-card-media">
+          <img src="images/gallery/Gemini_Generated_Image_pz5q2bpz5q2bpz5q.png" alt="フロマージュ">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">ドゥーブルフロマージュ</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">ドゥーブルフロマージュ</div>
+        </div>
+      </div>
+
+      <div class="g-card reveal reveal-d1">
+        <div class="g-card-media">
+          <img src="images/gallery/Gemini_Generated_Image_wz7bivwz7bivwz7b.png" alt="アールグレイ">
+          <div class="g-card-overlay">
+            <span class="g-card-overlay-tag">✦ 断面図</span>
+            <div class="g-card-overlay-title">イチゴとアールグレイのケーキ</div>
+          </div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-card-tag">断面図</div>
+          <div class="g-card-title">イチゴとアールグレイのケーキ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<span class="gold-rule gold-rule--warm"></span>
+
+<!-- ══ GEMS ══ -->
+<section class="section section--warm" id="gems">
+  <div class="container">
+    <header class="section-header">
+      <span class="s-eyebrow">Gemini Gems</span>
+      <h2 class="s-heading">飲食店を助ける<em>AIアシスタント</em></h2>
+      <span class="s-divider"></span>
+      <p class="s-body">接客・SNS・バックオフィスを助ける、カスタムGemたち。</p>
+    </header>
+
+    <div class="gems-grid">
+      <div class="gem-card reveal">
+        <div class="gem-media">
+          <img src="images/gems/Gemini_Generated_Image_lqjjojlqjjojlqjj.png" alt="クレーム対策">
+        </div>
+        <div class="gem-body">
+          <span class="gem-label">Gemini Gem · ¥500</span>
+          <div class="gem-title">クレーム対策 Gem</div>
+          <p class="gem-desc">お客様からのクレームメールに対し、誠実かつ的確な返信文をAIが生成。トーンと法的リスクを考慮した文章で、初動対応の質を高めます。</p>
+        </div>
+      </div>
+
+      <div class="gem-card reveal reveal-d1">
+        <div class="gem-media">
+          <img src="images/gems/Gemini_Generated_Image_lcvf8qlcvf8qlcvf.png" alt="口コミ返信">
+        </div>
+        <div class="gem-body">
+          <span class="gem-label">Gemini Gem · ¥500</span>
+          <div class="gem-title">口コミ返信 Gem</div>
+          <p class="gem-desc">Googleマップや食べログの口コミに、ブランドの世界観を保ちながら温かく返信。良い口コミも悪い口コミも、品のある言葉で対応できます。</p>
+        </div>
+      </div>
+
+      <div class="gem-card reveal reveal-d2">
+        <div class="gem-media">
+          <img src="images/gems/Gemini_Generated_Image_h9qqd8h9qqd8h9qq.png" alt="SNS投稿">
+        </div>
+        <div class="gem-body">
+          <span class="gem-label">Gemini Gem · ¥500</span>
+          <div class="gem-title">SNS 投稿 Gem</div>
+          <p class="gem-desc">商品写真や日常の一枚から、SNSに投稿できるキャプションをAIが生成。ブランドの世界観を保ちながら、思わず保存したくなる言葉を届けます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<span class="gold-rule gold-rule--champ"></span>
+
+<!-- ══ CONTACT ══ -->
+<section class="section section--champ" id="contact">
+  <div class="container">
+    <header class="section-header">
+      <span class="s-eyebrow">Contact</span>
+      <h2 class="s-heading">公式 <em>LINE</em> へ</h2>
+      <span class="s-divider"></span>
+    </header>
+
+    <div class="contact-card reveal">
+      <div class="contact-icon">💚</div>
+      <h3 class="contact-h3">お友だち登録</h3>
+      <p class="contact-body">ご質問・ご相談・ご感想など、<br>どうぞお気軽にメッセージをどうぞ。<br>一つひとつ、丁寧にお返しします。</p>
+      <div class="gift-pill">🎁&nbsp; お友だちの証に、素敵なプレゼントをお届けします</div>
+      <a href="https://lin.ee/y12dk9P" class="btn btn-line">LINE で友だち追加</a>
+      <div class="contact-sub">
+        <a href="https://x.com/campagne202504" class="btn btn-outline" style="font-size:.8rem;">X でフォロー</a>
+        <a href="#" class="btn btn-outline" style="font-size:.8rem;">✉ お問い合わせ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Miki <em>Portfolio</em></div>
+  <p class="footer-copy">@campagne202504 &nbsp;·&nbsp; © 2025 Miki &nbsp;·&nbsp; Patissier × AI</p>
+</footer>
+
+<script>
+// Scroll reveal
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { obs.unobserve(e.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px 80px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+</script>
+</body>
+</html>

@@ -195,17 +195,45 @@ a    { color:inherit; text-decoration:none }
 .cta-row  { display:flex; gap:.8rem; flex-wrap:wrap }
 
 .hero-visual { flex:0 0 44%; position:relative; z-index:1 }
-.hero-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
-  border-radius:var(--r-lg); overflow:hidden;
-  box-shadow:var(--sh-lg); position:relative;
+
+/* ── Hero Slideshow ── */
+.hero-slide {
+  position:relative; border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:var(--sh-lg); aspect-ratio:4/5;
 }
-.hero-grid::after {
+.hero-slide::after {
   content:''; position:absolute; inset:0;
-  border:1.5px solid rgba(184,150,90,.42); border-radius:var(--r-lg); pointer-events:none;
+  border:1.5px solid rgba(184,150,90,.42); border-radius:var(--r-lg); pointer-events:none; z-index:2;
 }
-.hero-grid img { width:100%; height:210px; object-fit:cover; transition:transform var(--tr-slow) }
-.hero-grid img:hover { transform:scale(1.04) }
+.hero-slide-img {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity 1.2s ease, transform 8s ease;
+  transform:scale(1.04);
+}
+.hero-slide-img.active {
+  opacity:1; transform:scale(1);
+}
+.hero-slide-overlay {
+  position:absolute; bottom:0; left:0; right:0; z-index:1;
+  background:linear-gradient(to top,rgba(45,41,38,.72) 0%,transparent 55%);
+  padding:22px 20px 18px;
+}
+.hero-slide-caption {
+  font-family:var(--serif); font-size:.95rem; font-weight:300;
+  color:rgba(255,255,255,.9); line-height:1.4;
+}
+.hero-slide-dots {
+  position:absolute; bottom:14px; right:18px; z-index:3;
+  display:flex; gap:6px; align-items:center;
+}
+.hero-dot {
+  width:6px; height:6px; border-radius:3px;
+  background:rgba(255,255,255,.35);
+  transition:all 400ms ease; cursor:pointer;
+}
+.hero-dot.active {
+  width:20px; background:var(--gold);
+}
 
 /* ══ SECTIONS ══ */
 .section       { padding:100px 0 }
@@ -458,7 +486,12 @@ footer { background:var(--ink); padding:56px 5vw; text-align:center }
   </div>
 
   <div class="hero-visual reveal d2">
-    <div class="hero-grid" id="hero-grid"></div>
+    <div class="hero-slide" id="hero-slide">
+      <div class="hero-slide-overlay">
+        <div class="hero-slide-caption" id="hero-caption"></div>
+      </div>
+      <div class="hero-slide-dots" id="hero-dots"></div>
+    </div>
   </div>
 </section>
 
@@ -591,13 +624,8 @@ footer { background:var(--ink); padding:56px 5vw; text-align:center }
   // Hero sub
   document.getElementById('hero-sub').textContent = cfg.description;
 
-  // Hero grid (first 4 gallery images)
-  const hg = document.getElementById('hero-grid');
-  GALLERY_ITEMS.slice(0,4).forEach(g => {
-    const img = document.createElement('img');
-    img.src = g.src; img.alt = g.title; img.loading = 'lazy';
-    hg.appendChild(img);
-  });
+  // Hero slideshow
+  buildHeroSlide();
 
   // Contact
   document.getElementById('contact-body').textContent = 'ご質問・ご相談・ご感想など、どうぞお気軽にメッセージをどうぞ。\n一つひとつ、丁寧にお返しします。';
@@ -610,6 +638,53 @@ footer { background:var(--ink); padding:56px 5vw; text-align:center }
   buildGems();
   buildPrompts();
 })();
+
+/* ── Hero Slideshow ── */
+function buildHeroSlide(){
+  const wrap    = document.getElementById('hero-slide');
+  const caption = document.getElementById('hero-caption');
+  const dotsEl  = document.getElementById('hero-dots');
+  const items   = GALLERY_ITEMS;
+  let current   = 0;
+  let timer;
+
+  // 画像を全部 DOM に追加（opacity:0 で重ねる）
+  const imgs = items.map((g, i) => {
+    const img = document.createElement('img');
+    img.className = 'hero-slide-img' + (i === 0 ? ' active' : '');
+    img.src = g.src;
+    img.alt = g.title;
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    wrap.insertBefore(img, wrap.firstChild);
+    return img;
+  });
+
+  // ドットを生成
+  const dots = items.map((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+    return d;
+  });
+
+  function goTo(n) {
+    imgs[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + items.length) % items.length;
+    imgs[current].classList.add('active');
+    dots[current].classList.add('active');
+    caption.textContent = items[current].title;
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 4000);
+  }
+
+  // 初期キャプション
+  caption.textContent = items[0].title;
+
+  // 自動再生開始
+  timer = setInterval(() => goTo(current + 1), 4000);
+}
 
 /* ── Gallery ── */
 function buildGallery(){
